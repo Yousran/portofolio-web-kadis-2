@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model News {
+  id        Int      @id @default(autoincrement())
+  title     String
+  tag       String
+  link      String
+  date      String
+  image     String
+  createdAt DateTime @default(now()) @map("created_at")
+}
+
+model Award {
+  id        Int      @id @default(autoincrement())
+  title     String
+  tag       String
+  year      String
+  image     String
+  createdAt DateTime @default(now()) @map("created_at")
+}
+
+model Experience {
+  id          Int      @id @default(autoincrement())
+  period      String
+  role        String
+  company     String
+  description String
+  createdAt   DateTime @default(now()) @map("created_at")
+}

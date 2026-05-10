@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-dark: #0F172A;
+  --color-brand-primary: #b0d9f3;
+  --color-brand-muted: #cbd5e1;
+  --color-brand-bg: #0F172A;
+  --color-brand-accent: #fbbf24;
+}
+
+@layer base {
+  body {
+    @apply bg-brand-bg text-brand-muted selection:bg-brand-primary/30 selection:text-white;
+  }
+}
+
+.navy-gradient {
+  background: radial-gradient(circle at top right, #1e293b 0%, #0f172a 50%, #020617 100%);
+}
