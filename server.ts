@@ -5,10 +5,12 @@ import { fileURLToPath } from "url";
 import { createServer as createViteServer } from "vite";
 import { prisma } from "./src/lib/db.ts";
 import multer from "multer";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
 // Ensure uploads directory exists
 const uploadsDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadsDir)) {
@@ -53,6 +55,7 @@ async function startServer() {
   app.get("/api/news", async (req, res) => {
     const news = await prisma.news.findMany({
       orderBy: { createdAt: "desc" },
+      take: 6, // Limit to 6 items for homepage display
     });
     res.json(news);
   });
@@ -112,6 +115,15 @@ async function startServer() {
   app.delete("/api/experiences/:id", async (req, res) => {
     await prisma.experience.delete({ where: { id: Number(req.params.id) } });
     res.json({ success: true });
+  });
+
+
+  // stats
+  app.get("/api/stats", async (req, res) => {
+    const newsCount = await prisma.news.count();
+    const awardsCount = await prisma.award.count();
+    console.log("Stats counts server:", { newsCount, awardsCount });
+    res.json({ newsCount, awardsCount });
   });
 
   // Vite middleware for development

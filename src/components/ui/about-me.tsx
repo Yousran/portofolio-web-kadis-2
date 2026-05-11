@@ -19,7 +19,7 @@ import {
     Target,
     Briefcase,
 } from "lucide-react"
-import { motion, useScroll, useTransform, useInView, useSpring } from "framer-motion"
+import { motion, useScroll, useTransform, useInView, useSpring, cubicBezier, Transition } from "framer-motion"
 
 export default function AboutUsSection() {
     const [isVisible, setIsVisible] = useState(false)
@@ -59,7 +59,7 @@ export default function AboutUsSection() {
         visible: {
             y: 0,
             opacity: 1,
-            transition: { duration: 0.6, ease: "easeOut" },
+            transition: { duration: 0.6, ease: cubicBezier(0.21, 0.47, 0.32, 0.98), },
         },
     }
 
@@ -113,9 +113,27 @@ export default function AboutUsSection() {
             position: "right",
         },
     ]
+
+    interface Stats {
+        awardsCount: number;
+        newsCount: number;
+    }
+
+    const [statsData, setStats] = useState<Stats>({
+        awardsCount: 0,
+        newsCount: 0,
+    });
+
+    useEffect(() => {
+        fetch("/api/stats")
+            .then(res => res.json())
+            .then(data => {
+                setStats(data);
+            });
+    }, []);
     const stats = [
-        { icon: <Award />, value: 150, label: "News", suffix: "+" },
-        { icon: <Users />, value: 1200, label: "Awards", suffix: "+" },
+        { icon: <Award />, value: statsData.newsCount || 0, label: "News", suffix: "+" },
+        { icon: <Users />, value: statsData.awardsCount || 0, label: "Awards", suffix: "+" },
         { icon: <TrendingUp />, value: 98, label: "Partners", suffix: "+" },
         { icon: <Calendar />, value: 12, label: "Years Experience", suffix: "" },
     ]
@@ -367,7 +385,7 @@ interface ServiceItemProps {
     description: string
     variants: {
         hidden: { opacity: number; y?: number }
-        visible: { opacity: number; y?: number; transition: { duration: number; ease: string } }
+        visible: { opacity: number; y?: number; transition?: Transition }
     }
     delay: number
     direction: "left" | "right"

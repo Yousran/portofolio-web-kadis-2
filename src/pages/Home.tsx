@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatedMarqueeHero } from "../components/ui/hero-3";
-import { motion } from "framer-motion";
+import { cubicBezier, motion } from "framer-motion";
 import { ArrowRight, Trophy, Newspaper, Briefcase, User, Sparkles } from "lucide-react";
 import AboutUsSection from "../components/ui/about-me";
 
@@ -13,7 +13,7 @@ const SECTION_ANIMATION = {
   initial: { opacity: 0, y: 40 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-100px" },
-  transition: { duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }
+  transition: { duration: 0.8, ease: cubicBezier(0.21, 0.47, 0.32, 0.98), }
 };
 
 const DEMO_IMAGES = [
@@ -22,7 +22,7 @@ const DEMO_IMAGES = [
   "/uploads/makassar_689f1346703a7cd307e22d4540491ea3-720x405.jpg",
   "/uploads/83360f85-18ab-4fa3-a344-35d12bad0d5a.jpeg",
   "/uploads/0c64a4a1-0ee4-42f8-9502-7ecd37bc5e3a-1.jpeg",
-  "/uploads/0c64a4a1-0ee4-42f8-9502-7ecd37bc5e3a-1.jpeg",
+  "/uploads/makassar_689f1346703a7cd307e22d4540491ea3-720x405.jpg",
 ];
 
 const Home = () => {
@@ -174,8 +174,51 @@ const Home = () => {
             ))}
           </div>
         </motion.section>
+        
+        {/* News Section */}
+        <motion.section
+          id="news"
+          {...SECTION_ANIMATION}
+          className="space-y-16"
+        >
+          <div className="flex items-end justify-between">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-brand-primary font-semibold text-sm uppercase tracking-wider">
+                <Newspaper size={16} />
+                <span>Updates</span>
+              </div>
+              <h2 className="text-4xl font-bold tracking-tight text-white">Latest News</h2>
+            </div>
+            <Link to="/news" className="group flex items-center gap-2 text-sm font-semibold text-gray-400 hover:text-brand-primary transition-colors">
+              View all news <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {news.map((item, index) => (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="group flex flex-col space-y-4"
+              >
+                <div className="aspect-[16/10] overflow-hidden rounded-2xl bg-white/5 shadow-sm">
+                  <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-brand-dark px-2 py-0.5 rounded-full bg-brand-primary border border-brand-primary/20">{item.tag}</span>
+                    <span className="text-xs text-gray-500">{item.date}</span>
+                  </div>
+                  <h3 className="text-lg font-bold leading-tight group-hover:text-brand-primary transition-colors text-white">{item.title}</h3>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
 
-        {/* Awards Section */}
+        {/* Partners Section */}
         <motion.section
           id="awards"
           {...SECTION_ANIMATION}
