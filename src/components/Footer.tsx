@@ -21,8 +21,7 @@ const Footer = () => {
               Roemyorke<span className="text-brand-primary">Portfolio</span>
             </Link>
             <p className="text-gray-400 max-w-sm leading-relaxed">
-              A personal portfolio showcasing the intersection of design and engineering. 
-              Built with precision and a focus on clean, minimal aesthetics.
+              Public servant passionate about digital communication, with 15+ years of experience leveraging technology to improve public services and drive innovation.
             </p>
             <div className="flex gap-4">
               {socialLinks.map((social) => (

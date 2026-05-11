@@ -7,11 +7,9 @@ interface News { id: number; image: string; }
 
 const AwardsPage = () => {
   const [awards, setAwards] = useState<Award[]>([]);
-  const [news, setNews] = useState<News[]>([]);
 
   useEffect(() => {
     fetch("/api/awards", { cache: "no-store" }).then(res => res.json()).then(setAwards);
-    fetch("/api/news", { cache: "no-store" }).then(res => res.json()).then(setNews);
   }, []);
 
   return (
@@ -29,8 +27,8 @@ const AwardsPage = () => {
 
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12">
         {awards.map((item, index) => {
-          const newsImage = news.length > 0 ? news[index % news.length]?.image : undefined;
-          const imageSrc = newsImage || item.image;
+          const awardsImage = awards.length > 0 ? awards[index % awards.length]?.image : undefined;
+          const imageSrc = awardsImage || item.image;
 
           return (
             <motion.div

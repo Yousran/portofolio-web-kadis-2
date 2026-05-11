@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const Admin = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [activeTab, setActiveTab] = useState<"news" | "awards" | "experiences">("news");
+  const [activeTab, setActiveTab] = useState<"news" | "awards" | "experiences" | "partners">("news");
   const [data, setData] = useState<any[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -156,7 +156,7 @@ const Admin = () => {
             </button>
           </form>
           <p className="text-center text-xs text-gray-500">
-            Hint: admin / admin123
+            {/* Hint: admin / admin123 */}
           </p>
         </motion.div>
       </div>
@@ -180,7 +180,7 @@ const Admin = () => {
       </div>
 
       <div className="flex gap-2 p-1 bg-white/5 rounded-xl w-fit">
-        {(["news", "awards", "experiences"] as const).map((tab) => (
+        {(["news", "awards", "experiences", "partners"] as const).map((tab) => (
           <button
             key={tab}
             onClick={() => {
@@ -254,6 +254,18 @@ const Admin = () => {
                       placeholder="High-level summary of your impact..."
                       defaultValue={editingItem?.description}
                     />
+                  </div>
+                </>
+              )}
+              {activeTab === "partners" && (
+                <>
+                  {editingItem?.id && <input type="hidden" name="id" value={editingItem.id} />}
+                  <Input label="Partner Name" name="title" required placeholder="Partner" defaultValue={editingItem?.title} />
+                  <Input label="Year" name="year" required placeholder="2025" defaultValue={editingItem?.year} />
+                  <div className="space-y-1.5">
+                    <label className="text-sm font-medium text-gray-400">Partner Image</label>
+                    <input type="file" name="image" required={!editingItem} accept="image/*" className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-white/5 file:text-white hover:file:bg-white/10" />
+                    {editingItem?.image && <p className="text-xs text-gray-500">Current: {editingItem.image}</p>}
                   </div>
                 </>
               )}

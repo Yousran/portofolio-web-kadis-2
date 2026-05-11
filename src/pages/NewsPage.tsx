@@ -20,7 +20,7 @@ const NewsPage = () => {
         </div>
         <h1 className="text-5xl font-bold tracking-tight text-white">Latest News & Blog</h1>
         <p className="text-xl text-gray-400 max-w-2xl leading-relaxed">
-          The latest industry insights, project launches, and design deep-dives from my studio.
+          Stay updated with the latest insights, stories, and announcements.
         </p>
       </div>
 

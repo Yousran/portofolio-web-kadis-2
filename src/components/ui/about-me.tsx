@@ -117,11 +117,13 @@ export default function AboutUsSection() {
     interface Stats {
         awardsCount: number;
         newsCount: number;
+        partnersCount: number;
     }
 
     const [statsData, setStats] = useState<Stats>({
         awardsCount: 0,
         newsCount: 0,
+        partnersCount: 0,
     });
 
     useEffect(() => {
@@ -134,7 +136,7 @@ export default function AboutUsSection() {
     const stats = [
         { icon: <Award />, value: statsData.newsCount || 0, label: "News", suffix: "+" },
         { icon: <Users />, value: statsData.awardsCount || 0, label: "Awards", suffix: "+" },
-        { icon: <TrendingUp />, value: 98, label: "Partners", suffix: "+" },
+        { icon: <TrendingUp />, value: statsData.partnersCount || 0, label: "Partners", suffix: "+" },
         { icon: <Calendar />, value: 12, label: "Years Experience", suffix: "" },
     ]
 

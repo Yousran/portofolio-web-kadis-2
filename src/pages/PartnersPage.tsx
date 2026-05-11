@@ -22,7 +22,7 @@ const PartnersPage = () => {
   const [partners, setPartners] = useState<PartnerItem[]>([]);
 
   useEffect(() => {
-    fetch("/api/awards", { cache: "no-store" })
+    fetch("/api/partners", { cache: "no-store" })
       .then((res) => res.json())
       .then((data: AwardSource[]) =>
         setPartners(
@@ -46,7 +46,7 @@ const PartnersPage = () => {
         </div>
         <h1 className="text-5xl font-bold tracking-tight text-white">Partners & Collaborations</h1>
         <p className="text-xl text-gray-400 max-w-2xl leading-relaxed">
-          Partners page is populated from the Awards data source, mapped into partner fields.
+          Working together to create meaningful impact and innovation.
         </p>
       </div>
 

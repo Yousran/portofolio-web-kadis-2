@@ -63,6 +63,13 @@ async function startServer() {
   app.get("/api/news", async (req, res) => {
     const news = await prisma.news.findMany({
       orderBy: { createdAt: "desc" },
+    });
+    res.json(news);
+  });
+  
+  app.get("/api/home/news", async (req, res) => {
+    const news = await prisma.news.findMany({
+      orderBy: { createdAt: "desc" },
       take: 6, // Limit to 6 items for homepage display
     });
     res.json(news);
@@ -104,6 +111,13 @@ async function startServer() {
     });
     res.json(awards);
   });
+  app.get("/api/home/awards", async (req, res) => {
+    const awards = await prisma.award.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 6, // Limit to 6 items for homepage display
+    });
+    res.json(awards);
+  });
 
   app.post("/api/awards", upload.single("image"), async (req, res) => {
     const { id, title, tag, year, existingImage } = req.body;
@@ -131,6 +145,50 @@ async function startServer() {
 
   app.delete("/api/awards/:id", async (req, res) => {
     await prisma.award.delete({ where: { id: Number(req.params.id) } });
+    res.json({ success: true });
+  });
+  
+  // Partners
+  app.get("/api/partners", async (req, res) => {
+    const partners = await prisma.partner.findMany({
+      orderBy: { createdAt: "desc" },
+    });
+    res.json(partners);
+  });
+  app.get("/api/home/partners", async (req, res) => {
+    const partners = await prisma.partner.findMany({
+      orderBy: { createdAt: "desc" },
+      take: 6, // Limit to 6 items for homepage display
+    });
+    res.json(partners);
+  });
+
+  app.post("/api/partners", upload.single("image"), async (req, res) => {
+    const { id, title, year, existingImage } = req.body;
+    const image = req.file
+      ? `/uploads/${req.file.filename}`
+      : await resolveExistingImage(
+          () => prisma.partner.findUnique({ where: { id: Number(id) } }),
+          existingImage,
+        );
+
+    if (id) {
+      const item = await prisma.partner.update({
+        where: { id: Number(id) },
+        data: { title, year, image },
+      });
+      res.json(item);
+      return;
+    }
+
+    const item = await prisma.partner.create({
+      data: { title, year, image },
+    });
+    res.json(item);
+  });
+
+  app.delete("/api/partners/:id", async (req, res) => {
+    await prisma.partner.delete({ where: { id: Number(req.params.id) } });
     res.json({ success: true });
   });
 
@@ -170,8 +228,8 @@ async function startServer() {
   app.get("/api/stats", async (req, res) => {
     const newsCount = await prisma.news.count();
     const awardsCount = await prisma.award.count();
-    console.log("Stats counts server:", { newsCount, awardsCount });
-    res.json({ newsCount, awardsCount });
+    const partnersCount = await prisma.partner.count();
+    res.json({ newsCount, awardsCount, partnersCount });
   });
 
   // Vite middleware for development

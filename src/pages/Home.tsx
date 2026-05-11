@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatedMarqueeHero } from "../components/ui/hero-3";
 import { cubicBezier, motion } from "framer-motion";
-import { ArrowRight, Trophy, Newspaper, Briefcase, User, Sparkles } from "lucide-react";
+import { ArrowRight, Trophy, Newspaper, Briefcase, User, Sparkles, Handshake } from "lucide-react";
 import AboutUsSection from "../components/ui/about-me";
 
 interface News { id: number; title: string; tag: string; date: string; image: string, link: string; }
 interface Award { id: number; title: string; tag: string; year: string; image: string; }
+interface Partner { id: number; title: string;  year: string; image: string; }
 interface Experience { id: number; period: string; role: string; company: string; description: string; }
 
 const SECTION_ANIMATION = {
@@ -28,11 +29,13 @@ const DEMO_IMAGES = [
 const Home = () => {
   const [news, setNews] = useState<News[]>([]);
   const [awards, setAwards] = useState<Award[]>([]);
+  const [partners, setPartners] = useState<Partner[]>([]);
   const [experiences, setExperiences] = useState<Experience[]>([]);
 
   useEffect(() => {
-    fetch("/api/news", { cache: "no-store" }).then(res => res.json()).then(data => setNews(data.slice(0, 5)));
-    fetch("/api/awards", { cache: "no-store" }).then(res => res.json()).then(data => setAwards(data.slice(0, 5)));
+    fetch("/api/home/news", { cache: "no-store" }).then(res => res.json()).then(data => setNews(data));
+    fetch("/api/home/awards", { cache: "no-store" }).then(res => res.json()).then(data => setAwards(data));
+    fetch("/api/home/partners", { cache: "no-store" }).then(res => res.json()).then(data => setPartners(data));
     fetch("/api/experiences", { cache: "no-store" }).then(res => res.json()).then(data => setExperiences(data));
   }, []);
 
@@ -198,8 +201,8 @@ const Home = () => {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12">
             {awards.map((award, index) => {
-              const newsImage = news.length > 0 ? news[index % news.length]?.image : undefined;
-              const imageSrc = newsImage || award.image;
+              const awardsImage = awards.length > 0 ? awards[index % awards.length]?.image : undefined;
+              const imageSrc = awardsImage || award.image;
 
               return (
                 <motion.div
@@ -226,6 +229,60 @@ const Home = () => {
                       <span className="text-xs font-medium text-gray-500">{award.year}</span>
                     </div>
                     <h3 className="text-2xl font-bold leading-tight group-hover:text-brand-primary transition-colors text-white">{award.title}</h3>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </motion.section>
+        
+        {/* Partners Section */}
+        <motion.section
+          id="partners"
+          {...SECTION_ANIMATION}
+          className="space-y-16"
+        >
+          <div className="flex items-end justify-between">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-brand-primary font-semibold text-sm uppercase tracking-wider">
+                <Handshake size={16} />
+                <span>Collaboration</span>
+              </div>
+              <h2 className="text-4xl font-bold tracking-tight text-white">Partners</h2>
+            </div>
+            <Link to="/partners" className="group flex items-center gap-2 text-sm font-semibold text-gray-400 hover:text-brand-primary transition-colors">
+              View all partners <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12">
+            {partners.map((partner, index) => {
+              const partnersImage = partners.length > 0 ? partners[index % partners.length]?.image : undefined;
+              const imageSrc = partnersImage || partner.image;
+
+              return (
+                <motion.div
+                  key={partner.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.05 }}
+                  className="group flex flex-col space-y-6"
+                >
+                  <div className="aspect-16/10 overflow-hidden rounded-3xl bg-white/5 shadow-sm group-hover:shadow-xl transition-all duration-500">
+                    {imageSrc ? (
+                      <img
+                        src={imageSrc}
+                        alt={partner.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        referrerPolicy="no-referrer"
+                      />
+                    ) : null}
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      <span className="text-xs font-medium text-gray-500">{partner.year}</span>
+                    </div>
+                    <h3 className="text-2xl font-bold leading-tight group-hover:text-brand-primary transition-colors text-white">{partner.title}</h3>
                   </div>
                 </motion.div>
               );
