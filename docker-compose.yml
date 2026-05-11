@@ -3,7 +3,7 @@ services:
     image: mysql:8.0
     restart: always
     environment:
-      MYSQL_DATABASE: portfolio
+      MYSQL_DATABASE: db_kadis_2
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin_password
@@ -12,18 +12,27 @@ services:
       - ./migrations/20260507085813_init/dump-db_kadis_2-202605072120.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "admin", "-padmin_password"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 30s   # Beri waktu MySQL init SQL selesai dieksekusi
 
   app:
     build: .
     restart: always
     environment:
-      DATABASE_URL: mysql://admin:admin_password@db:3306/portfolio
-      PORT: 3000
+      DATABASE_URL: mysql://root:root_password@db:3306/db_kadis_2
+      PORT: 3001
       NODE_ENV: production
     ports:
-      - "80:3000"
+      - "80:3001"
+    volumes:
+      - ./uploads:/app/uploads
     depends_on:
-      - db
+      db:
+        condition: service_healthy   # ← App hanya start setelah DB benar-benar siap
     networks:
       - app-network
 
