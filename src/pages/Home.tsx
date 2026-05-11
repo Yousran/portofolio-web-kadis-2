@@ -5,7 +5,7 @@ import { cubicBezier, motion } from "framer-motion";
 import { ArrowRight, Trophy, Newspaper, Briefcase, User, Sparkles } from "lucide-react";
 import AboutUsSection from "../components/ui/about-me";
 
-interface News { id: number; title: string; tag: string; date: string; image: string; }
+interface News { id: number; title: string; tag: string; date: string; image: string, link: string; }
 interface Award { id: number; title: string; tag: string; year: string; image: string; }
 interface Experience { id: number; period: string; role: string; company: string; description: string; }
 
@@ -152,8 +152,11 @@ const Home = () => {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {news.map((item, index) => (
-              <motion.div
+              <motion.a
                 key={item.id}
+                href={item.link}
+                target="_blank"
+                rel="noopener noreferrer"
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
@@ -170,7 +173,7 @@ const Home = () => {
                   </div>
                   <h3 className="text-lg font-bold leading-tight group-hover:text-brand-primary transition-colors text-white">{item.title}</h3>
                 </div>
-              </motion.div>
+              </motion.a>
             ))}
           </div>
         </motion.section>
@@ -187,10 +190,10 @@ const Home = () => {
                 <Newspaper size={16} />
                 <span>Updates</span>
               </div>
-              <h2 className="text-4xl font-bold tracking-tight text-white">Latest News</h2>
+              <h2 className="text-4xl font-bold tracking-tight text-white">Awards</h2>
             </div>
             <Link to="/news" className="group flex items-center gap-2 text-sm font-semibold text-gray-400 hover:text-brand-primary transition-colors">
-              View all news <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+              View all awards <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
