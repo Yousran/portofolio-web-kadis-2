@@ -9,7 +9,7 @@ services:
       MYSQL_PASSWORD: admin_password
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./migrations/20260507085813_init/dump-db_kadis_2-202605072120.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./prisma/migrations/20260507085813_init/dump-db_kadis_2-202605072120.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - app-network
 
@@ -21,7 +21,9 @@ services:
       PORT: 3000
       NODE_ENV: production
     ports:
-      - "80:3000"
+      - "3000:3000"
+    volumes:
+      - ./uploads:/app/uploads
     depends_on:
       - db
     networks:

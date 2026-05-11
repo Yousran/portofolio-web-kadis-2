@@ -15,6 +15,8 @@ model News {
   date      String
   image     String
   createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("news")
 }
 
 model Award {
@@ -24,6 +26,8 @@ model Award {
   year      String
   image     String
   createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("award")
 }
 
 model Experience {
@@ -33,4 +37,6 @@ model Experience {
   company     String
   description String
   createdAt   DateTime @default(now()) @map("created_at")
+
+  @@map("experience")
 }

@@ -31,7 +31,7 @@ const upload = multer({ storage: storage });
 
 async function startServer() {
   const app = express();
-  const PORT = 3001;
+  const PORT = Number(process.env.PORT) || 3000;
 
   app.use(express.json());
   
