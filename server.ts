@@ -29,6 +29,14 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
+const resolveExistingImage = async <T extends { image: string | null }>(
+  finder: () => Promise<T | null>,
+  fallbackImage: string | undefined,
+) => {
+  const existingItem = await finder();
+  return fallbackImage || existingItem?.image || "";
+};
+
 async function startServer() {
   const app = express();
   const PORT = Number(process.env.PORT) || 3000;
@@ -61,8 +69,23 @@ async function startServer() {
   });
 
   app.post("/api/news", upload.single("image"), async (req, res) => {
-    const { title, tag, link, date } = req.body;
-    const image = req.file ? `/uploads/${req.file.filename}` : "";
+    const { id, title, tag, link, date, existingImage } = req.body;
+    const image = req.file
+      ? `/uploads/${req.file.filename}`
+      : await resolveExistingImage(
+          () => prisma.news.findUnique({ where: { id: Number(id) } }),
+          existingImage,
+        );
+
+    if (id) {
+      const item = await prisma.news.update({
+        where: { id: Number(id) },
+        data: { title, tag, link, date, image },
+      });
+      res.json(item);
+      return;
+    }
+
     const item = await prisma.news.create({
       data: { title, tag, link, date, image },
     });
@@ -83,8 +106,23 @@ async function startServer() {
   });
 
   app.post("/api/awards", upload.single("image"), async (req, res) => {
-    const { title, tag, year } = req.body;
-    const image = req.file ? `/uploads/${req.file.filename}` : "";
+    const { id, title, tag, year, existingImage } = req.body;
+    const image = req.file
+      ? `/uploads/${req.file.filename}`
+      : await resolveExistingImage(
+          () => prisma.award.findUnique({ where: { id: Number(id) } }),
+          existingImage,
+        );
+
+    if (id) {
+      const item = await prisma.award.update({
+        where: { id: Number(id) },
+        data: { title, tag, year, image },
+      });
+      res.json(item);
+      return;
+    }
+
     const item = await prisma.award.create({
       data: { title, tag, year, image },
     });
@@ -105,7 +143,17 @@ async function startServer() {
   });
 
   app.post("/api/experiences", async (req, res) => {
-    const { period, role, company, description } = req.body;
+    const { id, period, role, company, description } = req.body;
+
+    if (id) {
+      const item = await prisma.experience.update({
+        where: { id: Number(id) },
+        data: { period, role, company, description },
+      });
+      res.json(item);
+      return;
+    }
+
     const item = await prisma.experience.create({
       data: { period, role, company, description },
     });

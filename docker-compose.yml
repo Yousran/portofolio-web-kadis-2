@@ -29,6 +29,19 @@ services:
     networks:
       - app-network
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    depends_on:
+      - db
+    environment:
+      PMA_HOST: db
+      PMA_USER: admin
+      PMA_PASSWORD: admin_password
+    ports:
+      - "8080:80"
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge

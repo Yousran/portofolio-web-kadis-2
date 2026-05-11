@@ -31,9 +31,9 @@ const Home = () => {
   const [experiences, setExperiences] = useState<Experience[]>([]);
 
   useEffect(() => {
-    fetch("/api/news").then(res => res.json()).then(data => setNews(data.slice(0, 5)));
-    fetch("/api/awards").then(res => res.json()).then(data => setAwards(data.slice(0, 5)));
-    fetch("/api/experiences").then(res => res.json()).then(data => setExperiences(data));
+    fetch("/api/news", { cache: "no-store" }).then(res => res.json()).then(data => setNews(data.slice(0, 5)));
+    fetch("/api/awards", { cache: "no-store" }).then(res => res.json()).then(data => setAwards(data.slice(0, 5)));
+    fetch("/api/experiences", { cache: "no-store" }).then(res => res.json()).then(data => setExperiences(data));
   }, []);
 
   return (
@@ -117,7 +117,7 @@ const Home = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
-                className="group relative grid md:grid-cols-[200px_1fr] gap-4 p-8 rounded-3xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] hover:shadow-2xl hover:shadow-brand-primary/5 transition-all duration-500"
+                className="group relative grid md:grid-cols-[200px_1fr] gap-4 p-8 rounded-3xl border border-white/5 bg-white/2 hover:bg-white/5 hover:shadow-2xl hover:shadow-brand-primary/5 transition-all duration-500"
               >
                 <div className="text-brand-muted font-medium">{exp.period}</div>
                 <div className="space-y-2">
@@ -163,7 +163,7 @@ const Home = () => {
                 transition={{ delay: index * 0.1 }}
                 className="group flex flex-col space-y-4"
               >
-                <div className="aspect-[16/10] overflow-hidden rounded-2xl bg-white/5 shadow-sm">
+                <div className="aspect-16/10 overflow-hidden rounded-2xl bg-white/5 shadow-sm">
                   <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
                 </div>
                 <div className="space-y-2">
@@ -178,50 +178,7 @@ const Home = () => {
           </div>
         </motion.section>
         
-        {/* News Section */}
-        <motion.section
-          id="news"
-          {...SECTION_ANIMATION}
-          className="space-y-16"
-        >
-          <div className="flex items-end justify-between">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-brand-primary font-semibold text-sm uppercase tracking-wider">
-                <Newspaper size={16} />
-                <span>Updates</span>
-              </div>
-              <h2 className="text-4xl font-bold tracking-tight text-white">Awards</h2>
-            </div>
-            <Link to="/news" className="group flex items-center gap-2 text-sm font-semibold text-gray-400 hover:text-brand-primary transition-colors">
-              View all awards <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {news.map((item, index) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group flex flex-col space-y-4"
-              >
-                <div className="aspect-[16/10] overflow-hidden rounded-2xl bg-white/5 shadow-sm">
-                  <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center gap-3">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-brand-dark px-2 py-0.5 rounded-full bg-brand-primary border border-brand-primary/20">{item.tag}</span>
-                    <span className="text-xs text-gray-500">{item.date}</span>
-                  </div>
-                  <h3 className="text-lg font-bold leading-tight group-hover:text-brand-primary transition-colors text-white">{item.title}</h3>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.section>
-
-        {/* Partners Section */}
+        {/* Awards Section */}
         <motion.section
           id="awards"
           {...SECTION_ANIMATION}
@@ -239,26 +196,40 @@ const Home = () => {
               View all awards <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
-          <div className="grid gap-4">
-            {awards.map((award, index) => (
-              <motion.div
-                key={award.id}
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="group flex items-center justify-between p-6 rounded-2xl border border-white/5 hover:border-brand-primary hover:bg-white/[0.02] transition-all duration-300"
-              >
-                <div className="flex items-center gap-6">
-                  <span className="text-lg font-bold opacity-30 group-hover:opacity-100 text-brand-muted">{award.year}</span>
-                  <div className="space-y-0.5">
-                    <h3 className="font-bold text-lg text-white group-hover:text-brand-primary transition-colors">{award.title}</h3>
-                    <p className="text-sm opacity-60 group-hover:opacity-80 text-gray-400 group-hover:text-white transition-colors">{award.tag}</p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12">
+            {awards.map((award, index) => {
+              const newsImage = news.length > 0 ? news[index % news.length]?.image : undefined;
+              const imageSrc = newsImage || award.image;
+
+              return (
+                <motion.div
+                  key={award.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.05 }}
+                  className="group flex flex-col space-y-6"
+                >
+                  <div className="aspect-16/10 overflow-hidden rounded-3xl bg-white/5 shadow-sm group-hover:shadow-xl transition-all duration-500">
+                    {imageSrc ? (
+                      <img
+                        src={imageSrc}
+                        alt={award.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        referrerPolicy="no-referrer"
+                      />
+                    ) : null}
                   </div>
-                </div>
-                <Trophy size={20} className="opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0 transition-all text-brand-primary" />
-              </motion.div>
-            ))}
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3">
+                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-dark px-3 py-1 rounded-full bg-brand-primary border border-brand-primary/20">{award.tag}</span>
+                      <span className="text-xs font-medium text-gray-500">{award.year}</span>
+                    </div>
+                    <h3 className="text-2xl font-bold leading-tight group-hover:text-brand-primary transition-colors text-white">{award.title}</h3>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </motion.section>
       </div>
