@@ -1,15 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Github, Linkedin, Twitter, Mail, ExternalLink } from "lucide-react";
+import { Github, Linkedin, Twitter, Mail, ExternalLink, Instagram, Music, Facebook } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { icon: <Github size={20} />, href: "https://github.com", label: "GitHub" },
-    { icon: <Linkedin size={20} />, href: "https://linkedin.com", label: "LinkedIn" },
-    { icon: <Twitter size={20} />, href: "https://twitter.com", label: "Twitter" },
-    { icon: <Mail size={20} />, href: "mailto:hello@aura.com", label: "Email" },
+    { icon: <Instagram size={20} />, href: "https://www.instagram.com/roemyorke/", label: "Instagram" },
+    { icon: <Music size={20} />, href: "https://www.tiktok.com/@roemyorke", label: "TikTok" },
+    { icon: <Twitter size={20} />, href: "https://x.com/roemyorke", label: "X" },
+    { icon: <Facebook size={20} />, href: "https://www.facebook.com/roem.yorke.1/#", label: "Facebook" },
   ];
 
   return (
@@ -18,10 +18,10 @@ const Footer = () => {
         <div className="grid md:grid-cols-2 gap-12 items-start">
           <div className="space-y-6">
             <Link to="/" className="text-2xl font-bold tracking-tight text-white">
-              Roemyorke<span className="text-brand-primary">Portfolio</span>
+              Roemyorke
             </Link>
             <p className="text-gray-400 max-w-sm leading-relaxed">
-              Public servant passionate about digital communication, with 15+ years of experience leveraging technology to improve public services and drive innovation.
+              Public servant passionate about digital communication, with {new Date().getFullYear() - 2012}+ years of experience leveraging technology to improve public services and drive innovation.
             </p>
             <div className="flex gap-4">
               {socialLinks.map((social) => (
@@ -44,7 +44,7 @@ const Footer = () => {
               <h4 className="font-bold text-sm uppercase tracking-widest text-white">Navigation</h4>
               <ul className="space-y-2 text-sm text-gray-400">
                 <li><Link to="/" className="hover:text-brand-primary transition-colors">Home</Link></li>
-                <li><Link to="/news" className="hover:text-brand-primary transition-colors">Archive</Link></li>
+                <li><Link to="/news" className="hover:text-brand-primary transition-colors">News</Link></li>
                 <li><Link to="/awards" className="hover:text-brand-primary transition-colors">Awards</Link></li>
                 <li><Link to="/partners" className="hover:text-brand-primary transition-colors">Partners</Link></li>
               </ul>

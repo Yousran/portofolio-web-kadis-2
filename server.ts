@@ -52,7 +52,7 @@ async function startServer() {
   app.post("/api/login", (req, res) => {
     const { username, password } = req.body;
     // Simple mock auth as requested
-    if (username === "admin" && password === "admin123") {
+    if (username === "admin" && password === "R@3m123485") {
       res.json({ success: true, token: "mock-token" });
     } else {
       res.status(401).json({ success: false, message: "Invalid credentials" });

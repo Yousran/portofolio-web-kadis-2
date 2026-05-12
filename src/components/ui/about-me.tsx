@@ -137,7 +137,7 @@ export default function AboutUsSection() {
         { icon: <Award />, value: statsData.newsCount || 0, label: "News", suffix: "+" },
         { icon: <Users />, value: statsData.awardsCount || 0, label: "Awards", suffix: "+" },
         { icon: <TrendingUp />, value: statsData.partnersCount || 0, label: "Partners", suffix: "+" },
-        { icon: <Calendar />, value: 12, label: "Years Experience", suffix: "" },
+        { icon: <Calendar />, value: new Date().getFullYear() - 2012, label: "Years Experience", suffix: "" },
     ]
 
     return (
@@ -246,7 +246,7 @@ export default function AboutUsSection() {
                                 whileHover={{ scale: 1.03, transition: { duration: 0.3 } }}
                             >
                                 <img
-                                    src="/uploads/WhatsApp Image 2026-05-09 at 9.48.59 PM.jpeg"
+                                    src="/uploads/about-me.jpeg"
                                     alt="Modern House"
                                     className="w-full h-full object-cover"
                                 />
