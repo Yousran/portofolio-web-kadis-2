@@ -3,13 +3,15 @@ services:
     image: mysql:8.0
     restart: always
     environment:
-      MYSQL_DATABASE: portfolio
+      MYSQL_DATABASE: db_kadis_2
       MYSQL_ROOT_PASSWORD: root_password
       MYSQL_USER: admin
       MYSQL_PASSWORD: admin_password
+    ports:
+      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
-      - ./prisma/migrations/20260507085813_init/dump-db_kadis_2-202605072120.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./prisma/migrations/20260507085813_init/dump-db_kadis_2-202605112306-2.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - app-network
 
@@ -17,7 +19,7 @@ services:
     build: .
     restart: always
     environment:
-      DATABASE_URL: mysql://admin:admin_password@db:3306/portfolio
+      DATABASE_URL: mysql://admin:admin_password@db:3306/db_kadis_2
       PORT: 3000
       NODE_ENV: production
     ports:
