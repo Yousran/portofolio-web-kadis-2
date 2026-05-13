@@ -2,23 +2,64 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AnimatedMarqueeHero } from "../components/ui/hero-3";
 import { cubicBezier, motion } from "framer-motion";
-import { ArrowRight, Trophy, Newspaper, Briefcase, Handshake, Facebook, Instagram, Music, X, Twitter, MedalIcon, Share2 } from "lucide-react";
+import {
+  ArrowRight,
+  Trophy,
+  Newspaper,
+  Briefcase,
+  Handshake,
+  Facebook,
+  Instagram,
+  Music,
+  X,
+  Twitter,
+  MedalIcon,
+  Share2,
+} from "lucide-react";
 import AboutUsSection from "../components/ui/about-me";
 
-interface News { id: number; title: string; tag: string; date: string; image: string, link: string; }
-interface Award { id: number; title: string; tag: string; year: string; image: string; }
-interface Partner { id: number; title: string; year: string; image: string; }
-interface Experience { id: number; period: string; role: string; company: string; description: string; }
-interface SocialMedia { id: string; name: string; icon: React.ReactNode; link: string; image: string; }
-
+interface News {
+  id: number;
+  title: string;
+  tag: string;
+  date: string;
+  image: string;
+  link: string;
+}
+interface Award {
+  id: number;
+  title: string;
+  tag: string;
+  year: string;
+  image: string;
+}
+interface Partner {
+  id: number;
+  title: string;
+  year: string;
+  image: string;
+}
+interface Experience {
+  id: number;
+  period: string;
+  role: string;
+  company: string;
+  description: string;
+}
+interface SocialMedia {
+  id: string;
+  name: string;
+  icon: React.ReactNode;
+  link: string;
+  image: string;
+}
 
 const SECTION_ANIMATION = {
   initial: { opacity: 0, y: 40 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-100px" },
-  transition: { duration: 0.8, ease: cubicBezier(0.21, 0.47, 0.32, 0.98), }
+  transition: { duration: 0.8, ease: cubicBezier(0.21, 0.47, 0.32, 0.98) },
 };
-
 
 const SOCIAL_CHANNELS: SocialMedia[] = [
   {
@@ -26,29 +67,29 @@ const SOCIAL_CHANNELS: SocialMedia[] = [
     name: "Facebook",
     icon: <Facebook size={20} />,
     link: "https://www.facebook.com/roem.yorke.1/#",
-    image: "/uploads/about-me.jpeg"
+    image: "/uploads/about-me.jpeg",
   },
   {
     id: "ig",
     name: "Instagram",
     icon: <Instagram size={20} />,
     link: "https://www.instagram.com/roemyorke/",
-    image: "/uploads/about-me.jpeg"
+    image: "/uploads/about-me.jpeg",
   },
   {
     id: "tt",
     name: "TikTok",
     icon: <Music size={20} />,
     link: "https://www.tiktok.com/@roemyorke",
-    image: "/uploads/about-me.jpeg"
+    image: "/uploads/about-me.jpeg",
   },
   {
     id: "tw",
     name: "X",
     icon: <Twitter size={20} />,
     link: "https://x.com/roemyorke",
-    image: "/uploads/about-me.jpeg"
-  }
+    image: "/uploads/about-me.jpeg",
+  },
 ];
 
 const DEMO_IMAGES = [
@@ -67,10 +108,18 @@ const Home = () => {
   const [experiences, setExperiences] = useState<Experience[]>([]);
 
   useEffect(() => {
-    fetch("/api/home/news", { cache: "no-store" }).then(res => res.json()).then(data => setNews(data));
-    fetch("/api/home/awards", { cache: "no-store" }).then(res => res.json()).then(data => setAwards(data));
-    fetch("/api/home/partners", { cache: "no-store" }).then(res => res.json()).then(data => setPartners(data));
-    fetch("/api/experiences", { cache: "no-store" }).then(res => res.json()).then(data => setExperiences(data));
+    fetch("/api/home/news", { cache: "no-store" })
+      .then((res) => res.json())
+      .then((data) => setNews(data));
+    fetch("/api/home/awards", { cache: "no-store" })
+      .then((res) => res.json())
+      .then((data) => setAwards(data));
+    fetch("/api/home/partners", { cache: "no-store" })
+      .then((res) => res.json())
+      .then((data) => setPartners(data));
+    fetch("/api/experiences", { cache: "no-store" })
+      .then((res) => res.json())
+      .then((data) => setExperiences(data));
   }, []);
 
   return (
@@ -143,7 +192,9 @@ const Home = () => {
                 <Briefcase size={16} />
                 <span>Journey</span>
               </div>
-              <h2 className="text-4xl font-bold tracking-tight text-white">Professional Experience</h2>
+              <h2 className="text-4xl font-bold tracking-tight text-white">
+                Professional Experience
+              </h2>
             </div>
           </div>
           <div className="grid gap-8">
@@ -158,33 +209,44 @@ const Home = () => {
               >
                 <div className="text-brand-muted font-medium">{exp.period}</div>
                 <div className="space-y-2">
-                  <h3 className="text-xl font-bold text-white">{exp.role} · {exp.company}</h3>
-                  <p className="text-gray-400 leading-relaxed max-w-2xl">{exp.description}</p>
+                  <h3 className="text-xl font-bold text-white">
+                    {exp.role} · {exp.company}
+                  </h3>
+                  <p className="text-gray-400 leading-relaxed max-w-2xl">
+                    {exp.description}
+                  </p>
                 </div>
               </motion.div>
             ))}
             {experiences.length === 0 && (
-              <p className="text-brand-muted italic">No experience entries yet. Add some in the admin panel.</p>
+              <p className="text-brand-muted italic">
+                No experience entries yet. Add some in the admin panel.
+              </p>
             )}
           </div>
         </motion.section>
 
         {/* News Section */}
-        <motion.section
-          id="news"
-          {...SECTION_ANIMATION}
-          className="space-y-16"
-        >
+        <motion.section id="news" {...SECTION_ANIMATION} className="space-y-16">
           <div className="flex items-end justify-between">
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-brand-primary font-semibold text-sm uppercase tracking-wider">
                 <Newspaper size={16} />
                 <span>Updates</span>
               </div>
-              <h2 className="text-4xl font-bold tracking-tight text-white">Latest News</h2>
+              <h2 className="text-4xl font-bold tracking-tight text-white">
+                Latest News
+              </h2>
             </div>
-            <Link to="/news" className="group flex items-center gap-2 text-sm font-semibold text-gray-400 hover:text-brand-primary transition-colors">
-              View all news <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            <Link
+              to="/news"
+              className="group flex items-center gap-2 text-sm font-semibold text-gray-400 hover:text-brand-primary transition-colors"
+            >
+              View all news{" "}
+              <ArrowRight
+                size={16}
+                className="group-hover:translate-x-1 transition-transform"
+              />
             </Link>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -201,14 +263,23 @@ const Home = () => {
                 className="group flex flex-col space-y-4"
               >
                 <div className="aspect-16/10 overflow-hidden rounded-2xl bg-white/5 shadow-sm">
-                  <img src={item.image} alt={item.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                    referrerPolicy="no-referrer"
+                  />
                 </div>
                 <div className="space-y-2">
                   <div className="flex items-center gap-3">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-brand-dark px-2 py-0.5 rounded-full bg-brand-primary border border-brand-primary/20">{item.tag}</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-brand-dark px-2 py-0.5 rounded-full bg-brand-primary border border-brand-primary/20">
+                      {item.tag}
+                    </span>
                     <span className="text-xs text-gray-500">{item.date}</span>
                   </div>
-                  <h3 className="text-lg font-bold leading-tight group-hover:text-brand-primary transition-colors text-white">{item.title}</h3>
+                  <h3 className="text-lg font-bold leading-tight group-hover:text-brand-primary transition-colors text-white">
+                    {item.title}
+                  </h3>
                 </div>
               </motion.a>
             ))}
@@ -227,15 +298,27 @@ const Home = () => {
                 <Trophy size={16} />
                 <span>Recognition</span>
               </div>
-              <h2 className="text-4xl font-bold tracking-tight text-white">Awards & Honors</h2>
+              <h2 className="text-4xl font-bold tracking-tight text-white">
+                Awards & Honors
+              </h2>
             </div>
-            <Link to="/awards" className="group flex items-center gap-2 text-sm font-semibold text-gray-400 hover:text-brand-primary transition-colors">
-              View all awards <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            <Link
+              to="/awards"
+              className="group flex items-center gap-2 text-sm font-semibold text-gray-400 hover:text-brand-primary transition-colors"
+            >
+              View all awards{" "}
+              <ArrowRight
+                size={16}
+                className="group-hover:translate-x-1 transition-transform"
+              />
             </Link>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12">
             {awards.map((award, index) => {
-              const awardsImage = awards.length > 0 ? awards[index % awards.length]?.image : undefined;
+              const awardsImage =
+                awards.length > 0
+                  ? awards[index % awards.length]?.image
+                  : undefined;
               const imageSrc = awardsImage || award.image;
 
               return (
@@ -259,10 +342,16 @@ const Home = () => {
                   </div>
                   <div className="space-y-3">
                     <div className="flex items-center gap-3">
-                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-dark px-3 py-1 rounded-full bg-brand-primary border border-brand-primary/20">{award.tag}</span>
-                      <span className="text-xs font-medium text-gray-500">{award.year}</span>
+                      <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-dark px-3 py-1 rounded-full bg-brand-primary border border-brand-primary/20">
+                        {award.tag}
+                      </span>
+                      <span className="text-xs font-medium text-gray-500">
+                        {award.year}
+                      </span>
                     </div>
-                    <h3 className="text-2xl font-bold leading-tight group-hover:text-brand-primary transition-colors text-white">{award.title}</h3>
+                    <h3 className="text-2xl font-bold leading-tight group-hover:text-brand-primary transition-colors text-white">
+                      {award.title}
+                    </h3>
                   </div>
                 </motion.div>
               );
@@ -282,15 +371,27 @@ const Home = () => {
                 <Handshake size={16} />
                 <span>Collaboration</span>
               </div>
-              <h2 className="text-4xl font-bold tracking-tight text-white">Partners</h2>
+              <h2 className="text-4xl font-bold tracking-tight text-white">
+                Partners
+              </h2>
             </div>
-            <Link to="/partners" className="group flex items-center gap-2 text-sm font-semibold text-gray-400 hover:text-brand-primary transition-colors">
-              View all partners <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            <Link
+              to="/partners"
+              className="group flex items-center gap-2 text-sm font-semibold text-gray-400 hover:text-brand-primary transition-colors"
+            >
+              View all partners{" "}
+              <ArrowRight
+                size={16}
+                className="group-hover:translate-x-1 transition-transform"
+              />
             </Link>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-12">
             {partners.map((partner, index) => {
-              const partnersImage = partners.length > 0 ? partners[index % partners.length]?.image : undefined;
+              const partnersImage =
+                partners.length > 0
+                  ? partners[index % partners.length]?.image
+                  : undefined;
               const imageSrc = partnersImage || partner.image;
 
               return (
@@ -314,9 +415,13 @@ const Home = () => {
                   </div>
                   <div className="space-y-3">
                     <div className="flex items-center gap-3">
-                      <span className="text-xs font-medium text-gray-500">{partner.year}</span>
+                      <span className="text-xs font-medium text-gray-500">
+                        {partner.year}
+                      </span>
                     </div>
-                    <h3 className="text-2xl font-bold leading-tight group-hover:text-brand-primary transition-colors text-white">{partner.title}</h3>
+                    <h3 className="text-2xl font-bold leading-tight group-hover:text-brand-primary transition-colors text-white">
+                      {partner.title}
+                    </h3>
                   </div>
                 </motion.div>
               );
@@ -325,16 +430,15 @@ const Home = () => {
         </motion.section>
 
         {/* Social Media Section */}
-        <motion.section
-          {...SECTION_ANIMATION}
-          className="space-y-12"
-        >
+        <motion.section {...SECTION_ANIMATION} className="space-y-12">
           <div className="space-y-2">
             <div className="flex items-center gap-2 text-brand-primary font-semibold text-sm uppercase tracking-wider">
-              <Share2  size={16} />
+              <Share2 size={16} />
               <span>Social Media</span>
             </div>
-            <h2 className="text-4xl font-bold tracking-tight text-white">Contact Me</h2>
+            <h2 className="text-4xl font-bold tracking-tight text-white">
+              Contact Me
+            </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-0 overflow-hidden rounded-3xl border border-white/10">
             {SOCIAL_CHANNELS.map((channel, index) => (
@@ -366,7 +470,9 @@ const Home = () => {
                     <div className="p-2 rounded-full bg-white/10 backdrop-blur-md text-white group-hover:bg-brand-primary group-hover:text-black transition-colors">
                       {channel.icon}
                     </div>
-                    <span className="font-bold text-white text-lg">{channel.name}</span>
+                    <span className="font-bold text-white text-lg">
+                      {channel.name}
+                    </span>
                   </div>
                   <div className="p-2 border border-white/20 rounded-full text-white group-hover:bg-white group-hover:text-black transition-all">
                     <ArrowRight size={20} />
