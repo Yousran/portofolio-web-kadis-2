@@ -1,30 +1,47 @@
 -- CreateTable
-CREATE TABLE "News" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "title" TEXT NOT NULL,
-    "tag" TEXT NOT NULL,
-    "link" TEXT NOT NULL,
-    "date" TEXT NOT NULL,
-    "image" TEXT NOT NULL,
-    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
+CREATE TABLE `news` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(191) NOT NULL,
+    `tag` VARCHAR(191) NOT NULL,
+    `link` VARCHAR(191) NOT NULL,
+    `date` VARCHAR(191) NOT NULL,
+    `image` VARCHAR(191) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE "Award" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "title" TEXT NOT NULL,
-    "tag" TEXT NOT NULL,
-    "year" TEXT NOT NULL,
-    "image" TEXT NOT NULL,
-    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
+CREATE TABLE `award` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(191) NOT NULL,
+    `tag` VARCHAR(191) NOT NULL,
+    `year` VARCHAR(191) NOT NULL,
+    `image` VARCHAR(191) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE "Experience" (
-    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    "period" TEXT NOT NULL,
-    "role" TEXT NOT NULL,
-    "company" TEXT NOT NULL,
-    "description" TEXT NOT NULL,
-    "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-);
+CREATE TABLE `partner` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `title` VARCHAR(191) NOT NULL,
+    `year` VARCHAR(191) NOT NULL,
+    `image` VARCHAR(191) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `experience` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `period` VARCHAR(191) NOT NULL,
+    `role` VARCHAR(191) NOT NULL,
+    `company` VARCHAR(191) NOT NULL,
+    `description` VARCHAR(191) NOT NULL,
+    `created_at` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
