@@ -6,6 +6,11 @@
   --color-brand-muted: #cbd5e1;
   --color-brand-bg: #0F172A;
   --color-brand-accent: #fbbf24;
+  --color-brand-light-accent: #F8FAFC;
+  --color-brand-secondary-accent: #A9BBC8;
+  --color-brand-light-bg: #edf9ff;
+  --color-brand-card-bg: #202e44;
+  --color-brand-highlight: #88734C;
 }
 
 @layer base {
