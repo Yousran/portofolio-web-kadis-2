@@ -2,9 +2,9 @@ import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/src/lib/utils";
 import { motion } from "framer-motion";
 
-const Navbar = () => {
+export default function Navbar() {
   const location = useLocation();
-  
+
   const navItems = [
     { name: "Home", path: "/" },
     { name: "News", path: "/news" },
@@ -19,7 +19,7 @@ const Navbar = () => {
           <Link to="/" className="text-xl font-bold tracking-tight text-white">
             Roemyorke
           </Link>
-          
+
           <div className="hidden sm:flex space-x-8">
             {navItems.map((item) => (
               <Link
@@ -27,14 +27,16 @@ const Navbar = () => {
                 to={item.path}
                 className={cn(
                   "relative text-sm font-medium transition-colors hover:text-brand-primary",
-                  location.pathname === item.path ? "text-brand-primary" : "text-gray-400"
+                  location.pathname === item.path
+                    ? "text-brand-primary"
+                    : "text-gray-400",
                 )}
               >
                 {item.name}
                 {location.pathname === item.path && (
                   <motion.div
                     layoutId="nav-underline"
-                    className="absolute -bottom-[21px] left-0 right-0 h-0.5 bg-brand-primary"
+                    className="absolute -bottom-5.25 left-0 right-0 h-0.5 bg-brand-primary"
                   />
                 )}
               </Link>
@@ -44,6 +46,4 @@ const Navbar = () => {
       </div>
     </nav>
   );
-};
-
-export default Navbar;
+}
